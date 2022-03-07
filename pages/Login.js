@@ -15,7 +15,7 @@ import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/Key
 
 
 const Login = ({navigation}) => {
-  const Data={"email":"Jeothankach@gmail.com","password":"1234"}
+  const Data={"email":"Jeothankach@gmail.com","password":"12345678"}
   const [emailstatus,setEmailValidError]=useState("")
   const[passwordstatus,setPasswordValidError]=useState("")
  
@@ -28,25 +28,41 @@ const Login = ({navigation}) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     
     if (val.length === 0) {
-      setEmailValidError('Email address must be enter');
+      setEmailValidError('* Email address must be enter');
+      return false
     } else if (reg.test(val) === false) {
-      setEmailValidError('Enter valid email address');
+      setEmailValidError('* Enter valid email address');
+      return false
     } else if (reg.test(val) === true) {
       setEmailValidError('');
+      return true
       
     }
     };
+    const handleValidPassword = (val) => {
+      if(val.length === 0 ){
+        setPasswordValidError("* Password must be enter");
+        return false
+      }else if(val.length < 8){
+        setPasswordValidError('* Password must be 8 letters')
+        return false
+      }else if(val.length >= 8){
+        setPasswordValidError('')
+        return true
+      }
+      
+    }
 
     const checkDetails=()=>{
       if(Data["email"]!=email && Data["password"]!=password)
       {
         if(email.length==0 && password.length==0){
           alert('Enter value')
-          setEmailValidError('Email address must be enter')
-          setPasswordValidError('Password must enter')
+          setEmailValidError('* Email address must be enter')
+          setPasswordValidError('* Password must enter')
         }
         else{
-        alert('Email id or password incorrect')
+        alert('* Email id or password incorrect')
         setPasswordValidError('')
         };
     
@@ -58,10 +74,6 @@ const Login = ({navigation}) => {
       }
      
     }
-   
-      
-
-    
   
     return(
       <KeyboardAvoidingView>
@@ -92,7 +104,8 @@ const Login = ({navigation}) => {
                  <Text style={styles.tview}>Password</Text>
                  <TextInput style ={styles.inputview}
 
-                    onChangeText={(Text)=>setPassword(Text)}
+                    onChangeText={value=>{setPassword(value);
+                    handleValidPassword(value);}}
                     placeholder = '* * * * * *'
                     placeholderTextColor = 'gray'
                     secureTextEntry >
