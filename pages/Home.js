@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {View, Text, FlatList, ActivityIndicator,StyleSheet, Image} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import apiCall from './ApiActionCreator';
+import apiCall from '../src/ApiActionCreator';
 
 const Home = () => {
 

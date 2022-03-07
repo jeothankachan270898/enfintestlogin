@@ -11,10 +11,11 @@ import {
   Alert
 
 }from 'react-native';
+import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView'
 
 
 const Login = ({navigation}) => {
-  const Data={"email":"Jeothankach@gmail.com","password":"asdfghjkl"}
+  const Data={"email":"Jeothankach@gmail.com","password":"1234"}
   const [emailstatus,setEmailValidError]=useState("")
   const[passwordstatus,setPasswordValidError]=useState("")
  
@@ -23,46 +24,47 @@ const Login = ({navigation}) => {
 
   
   
-   const handleValidEmail = val => {
+   const handleValidEmail = (val) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     
     if (val.length === 0) {
       setEmailValidError('Email address must be enter');
-      return false
     } else if (reg.test(val) === false) {
       setEmailValidError('Enter valid email address');
-      return false
     } else if (reg.test(val) === true) {
       setEmailValidError('');
-      return true
+      
     }
     };
 
-  const validate_field = () =>{
-     if (handleValidEmail == false)
-     {
-       alert('Enter email Address')
-       return false
-     }else if (!password.trim()){
-       alert('Enter password')
-       setPasswordValidError('Password must enter')
-       return  false
-     }else{
-       return true
-     }
-  }
-
-   const login_call=()=>{
-    if(validate_field()){
-      alert("Successfully login")
-      navigation.navigate('Home')
-
+    const checkDetails=()=>{
+      if(Data["email"]!=email && Data["password"]!=password)
+      {
+        if(email.length==0 && password.length==0){
+          alert('Enter value')
+          setEmailValidError('Email address must be enter')
+          setPasswordValidError('Password must enter')
+        }
+        else{
+        alert('Email id or password incorrect')
+        setPasswordValidError('')
+        };
+    
+      }
+      else if (Data["email"] === email && Data["password"] === password){
+        navigation.navigate('Home')
+        setPasswordValidError('')
+        
+      }
+     
     }
-  }
+   
+      
 
+    
   
     return(
-      <View style= {styles.container}>
+      <KeyboardAvoidingView>
 
           <View style={styles.container2}>
                <Image source= {require('../Assets/logo2.png')}
@@ -99,28 +101,22 @@ const Login = ({navigation}) => {
               <Text style={styles.Alerttext}>{passwordstatus}</Text>
                <TouchableHighlight style={styles.bottonview}
                   underlayColor = 'transparent'
-                  onPress = {()=> login_call()} >
+                  onPress = {()=> {checkDetails()}} >
                   <Text style={styles.bottontext}>Login</Text>
                 </TouchableHighlight>
 
               
             </View> 
-      </View>
+            </KeyboardAvoidingView>
     );
   
 }
 export default Login;
 const styles = StyleSheet.create({
-  container : {
+
+  container2 :  {
     height: '100%',
     width: '100%',
-    backgroundColor: '#fff', 
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  container2 :  {
-    height: '80%',
-    width: '90%',
     justifyContent: 'center',
     backgroundColor: '#fff',
     paddingLeft: 30
